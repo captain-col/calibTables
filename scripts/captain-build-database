@@ -1,0 +1,51 @@
+#!/bin/bash
+
+echo Build the calibration database.
+
+# This directory should ALWAYS exist, but check anyway.
+if [ ! -d ${CALIBTABLESROOT} ]; then
+    echo captain-build-database: Installation directory is missing!
+    echo    where is: ${CALIBTABLESROOT}
+    exit 1
+fi
+cd ${CALIBTABLESROOT}
+
+# This directory won't exist when the package is checkout the first
+# time, but should have been created by captain-get-calibrations.
+if [ ! -d ./${CALIBTABLESCONFIG} ]; then
+    echo captain-build-database: Config directory is missing!
+    echo    where is: ${CALIBTABLESCONFIG}
+    exit 1
+fi
+cd ${CALIBTABLESCONFIG}
+
+# This directory won't exist when the package is checkout the first
+# time, but should have been created by captain-get-calibrations.
+if [ ! -d ./tables ]; then
+    echo captain-build-database: Table directory is missing!
+    echo    where is: ./tables
+    exit 1
+fi
+
+if [ ${#ENV_TSQL_URL} == 0 ]; then
+    echo captain-build-database: The database variable is not set!
+    echo    Set ENV_TSQL_URL
+    exit 1
+fi
+
+# Check if the calibrations database already exists.
+FILENAME=$(echo ${ENV_TSQL_URL} | sed s_sqlite://__)
+if [ -f ${FILENAME} ]; then
+    echo captain-build-database: Remove existing file ${FILENAME}
+    rm ${FILENAME}
+fi
+
+for def in ${CALIBTABLESROOT}/definitions/*.def; do
+    database_updater.py apply_local_update ${def}
+done
+
+for update in ${CALIBTABLESROOT}/${CALIBTABLESCONFIG}/tables/*.update*; do
+    if [ -f ${update} ]; then
+	database_updater.py apply_local_update ${update}
+    fi
+done

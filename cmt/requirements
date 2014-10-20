@@ -1,0 +1,62 @@
+package calibTables
+
+# This is required for the documentation.
+manager Clark McGrew <clark.mcgrew@stonybrook.edu>
+author Clark McGrew <clark.mcgrew@stonybrook.edu>
+
+# The packages used by this one.  Only direct dependencies should be
+# included, but don't depend on a used package to add dependencies that
+# are required by this package.  e.g. If you directly use captEvent add it
+# even if it is also used by one of your sub-package.
+use captainPolicy 
+use captEvent
+use captDBI
+
+# Build the documentation.
+document doxygen doxygen -group=documentation *.cxx *.hxx ../doc/*.dox
+
+# Build the version file.
+document version version *.cxx *.hxx *_LinkDef.h
+
+# Build the registration prototype.
+document register register 
+macro_append register_dependencies " version "
+
+# Build all of the ROOT dictionaries.
+document linkdef linkdef *.hxx *_LinkDef.h
+macro_append linkdef_dependencies " register "
+
+# Build information used by packages that use this one.
+macro calibTables_cppflags " -DCALIBTABLES_USED "
+macro calibTables_linkopts " -L$(CALIBTABLESROOT)/$(calibTables_tag) "
+macro_append calibTables_linkopts " -lcalibTables "
+macro_append calibTables_linkopts " $(Boost_linkopts) " 
+macro_append calibTables_linkopts " $(Boost_linkopts_serialization) " 
+macro calibTables_stamps " $(calibTablesstamp) $(linkdefstamp) "
+
+# The paths to find this library and it's executables
+path_remove LD_LIBRARY_PATH "$(CALIBTABLESROOT)" 
+path_prepend LD_LIBRARY_PATH "$(CALIBTABLESROOT)/$(calibTables_tag)"
+
+path_remove PATH "$(CALIBTABLESROOT)"
+path_prepend PATH "$(CALIBTABLESROOT)/$(calibTables_tag)"
+path_prepend PATH "$(CALIBTABLESROOT)/scripts"
+
+# Build the library for this package.
+library calibTables *.cxx *.hxx $(bin)dict/*.cxx 
+macro_append calibTables_dependencies " linkdef "
+
+# Set the default value for the ENV_TSQL_URL.  The USER and PSWD fields are
+# not used for a SQLITE implementation (the default for CAPTAIN).
+set ENV_TSQL_URL sqlite://$(CALIBTABLESROOT)/$(calibTables_tag)/database.sqlite
+set ENV_TSQL_USER unused
+set ENV_TSQL_PSWD unused
+
+# Define a setup script to check for calibration tables and download them
+# if required. 
+setup_script calibration_setup
+
+# Build the applications for this package.
+application testChannelMap ../test/testChannelMap.cxx
+macro_append testChannelMap_dependencies " calibTables "
+

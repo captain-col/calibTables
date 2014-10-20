@@ -1,0 +1,30 @@
+#  This is the update file to prepare a database table using
+#   database_updater.py
+#
+#  Update files can contain:-
+#
+#  1)  Blank lines and comments (# in column 1)
+#
+#  2)  SQL  <sql-command>;
+#      Any arbitrary SQL command that ends with a ';'.  
+#      Can span several lines (see below for example).
+#
+#  3)  BEGIN_TABLE <table-name> <start-date> <end-date> \
+#             <aggregate-number> <creation-date> {<task>} {<key>=<value> ...]
+#      Followed by one or more rows of data, one per line in the form
+#           <value>,<value>, ... <value> 
+#      This utility supplies both SEQNO and ROW_COUNTER to the start of
+#           each row.  The BEGIN_TABLE command must be on one line.
+
+# Now create the TPC_WIRE_CHANNEL_TABLE (database_updater.py will create the
+#   TPC_WIRE_CHANNEL_TABLEVLD table automatically)
+
+# The SEQNO and ROW_COUNTER columns are required by the DBI
+SQL CREATE TABLE IF NOT EXISTS TPC_WIRE_CHANNEL_TABLE(
+       SEQNO INTEGER not null,
+       ROW_COUNTER INTEGER not null,
+       WIRE       SMALLINT,
+       CRATE      SMALLINT,
+       CARD	  SMALLINT,
+       CHANNEL	  SMALLINT,
+       primary key(SEQNO,ROW_COUNTER));

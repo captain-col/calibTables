@@ -1,0 +1,17 @@
+/*! \mainpage Calibration tables definitions
+
+\section calibTables The Calibration Database Table Definitions.
+
+This package defines the SQL database tables in the CAPTAIN calibration
+database.  Calibration tables can be added by copying the
+TTPC_Channel_Map_Table* files to names matching the new table.  The naming
+conventions are that table names are all upper case with words separated by
+"_".  For instance, the table for the channel map is called
+TPC_CHANNEL_MAP_TABLE, and the interface is in the files
+TTPC_Channel_Map_Table.hxx, TTPC_Channel_Map_Table.cxx, and
+TTPC_Channel_Map_Table_LinkDef.h.  A definition file should also be added
+to the package in the definitions subdirectory with a name that matches the
+table name.  The definition file for TPC_CHANNEL_MAP_TABLE is called
+TPC_CHANNEL_MAP_TABLE.def.
+
+*/

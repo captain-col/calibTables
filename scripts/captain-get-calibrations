@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo Download the calibration files.
+
+# The location of the input files.
+if [ ${CALIBTABLESFILES}x == x ]; then
+    CALIBTABLESFILES=http://nngroup.physics.sunysb.edu/captain/files/calib/
+fi
+
+# This directory should ALWAYS exist, but check anyway.
+if [ ! -d ${CALIBTABLESROOT} ]; then
+    echo captain-get-calibrations: Installation directory is missing!
+    echo    where is: ${CALIBTABLESROOT}
+    exit 1
+fi
+cd ${CALIBTABLESROOT}
+
+# This directory won't exist when the package is checkout the first  time.
+if [ ! -d ./${CALIBTABLESCONFIG} ]; then
+    mkdir ${CALIBTABLESCONFIG}
+fi
+cd ${CALIBTABLESCONFIG}
+
+# This directory won't exist when the package is checkout the first  time.
+if [ ! -d ./tables ]; then
+    mkdir tables
+fi
+cd tables
+
+wget -N -nd --no-parent -r -A.update,.update.gz ${CALIBTABLESFILES}
+
+pwd
+
