@@ -17,7 +17,7 @@ int main() {
     // and end date.
 
     std::string start_date_time = "2014-10-11 00:00:00";
-    std::string end_date_time   = "2014-10-17 00:00:00";
+    std::string end_date_time   = "2015-10-17 00:00:00";
 
     Int_t start_unix_time = DateTimeToUnixTime(start_date_time);
     Int_t end_unix_time   = DateTimeToUnixTime(end_date_time);
@@ -29,6 +29,8 @@ int main() {
         CP::TEventContext context;
         context.SetTimeStamp(current_unix_time);
         context.SetPartition(0);
+        
+        CaptLog(UnixTimeToDateTime(current_unix_time));
 
         // Get the channel table.
         CP::TResultSetHandle<CP::TTPC_Wire_Channel_Table> chanTable(context);
@@ -59,8 +61,8 @@ int main() {
             if (!geomRow) {
                 CaptError("Missing geometry row " << wire);
             }
-            row->Print();
-            geomRow->Print();
+            // row->Print();
+            // geomRow->Print();
         }
     }
 
