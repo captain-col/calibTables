@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo Build the calibration database.
-
 # This directory should ALWAYS exist, but check anyway.
 if [ ! -d ${CALIBTABLESROOT} ]; then
     echo captain-build-database: Installation directory is missing!
@@ -33,18 +31,33 @@ if [ ${#ENV_TSQL_URL} == 0 ]; then
     exit 1
 fi
 
+DEFINITIONS=${CALIBTABLESROOT}/definitions
+UPDATES=${CALIBTABLESROOT}/${CALIBTABLESCONFIG}/tables
+
 # Check if the calibrations database already exists.
 FILENAME=$(echo ${ENV_TSQL_URL} | sed s_sqlite://__)
 if [ -f ${FILENAME} ]; then
-    echo captain-build-database: Remove existing file ${FILENAME}
+    APPLY="NO"
+    if [ -n "$(find ${DEFINITIONS} -name "*.def" -newer ${FILENAME})" ]; then
+	echo Need to update database because of definitions
+	APPLY="YES"
+    fi
+    if [ -n "$(find ${UPDATES} -name "*.update*" -newer ${FILENAME})" ]; then
+	echo Need to update database because of updates.
+	APPLY="YES"
+    fi
+    if [ ${APPLY} = "NO" ]; then
+	exit 0
+    fi
+    echo "Remove existing database"
     rm ${FILENAME}
 fi
 
-for def in ${CALIBTABLESROOT}/definitions/*.def; do
+for def in ${DEFINITIONS}/*.def; do
     database_updater.py apply_local_update ${def}
 done
 
-for update in ${CALIBTABLESROOT}/${CALIBTABLESCONFIG}/tables/*.update*; do
+for update in ${UPDATES}/*.update*; do
     if [ -f ${update} ]; then
 	database_updater.py apply_local_update ${update}
     fi

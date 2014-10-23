@@ -45,16 +45,18 @@ path_prepend PATH "$(CALIBTABLESROOT)/scripts"
 # Build the library for this package.
 library calibTables *.cxx *.hxx $(bin)dict/*.cxx 
 macro_append calibTables_dependencies " linkdef "
+macro_append calibTables_dependencies " database "
+
+# Action to get the calibration tables.
+action update "$(CALIBTABLESROOT)/scripts/captain-get-calibrations"
+action database "$(CALIBTABLESROOT)/scripts/captain-build-database"
+macro database_dependencies " update "
 
 # Set the default value for the ENV_TSQL_URL.  The USER and PSWD fields are
 # not used for a SQLITE implementation (the default for CAPTAIN).
 set ENV_TSQL_URL sqlite://$(CALIBTABLESROOT)/$(calibTables_tag)/database.sqlite
 set ENV_TSQL_USER unused
 set ENV_TSQL_PSWD unused
-
-# Define a setup script to check for calibration tables and download them
-# if required. 
-# setup_script calibration_setup
 
 # Build the applications for this package.
 application testChannelMap ../test/testChannelMap.cxx

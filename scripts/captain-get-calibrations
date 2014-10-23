@@ -27,7 +27,5 @@ if [ ! -d ./tables ]; then
 fi
 cd tables
 
-wget -N -nd --no-parent -r -A.update,.update.gz ${CALIBTABLESFILES}
-
-pwd
-
+wget -N -nd --no-parent -r -A.update,.update.gz ${CALIBTABLESFILES} || true
+rm -v robots.txt* || true
