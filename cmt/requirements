@@ -54,7 +54,7 @@ set ENV_TSQL_PSWD unused
 
 # Define a setup script to check for calibration tables and download them
 # if required. 
-setup_script calibration_setup
+# setup_script calibration_setup
 
 # Build the applications for this package.
 application testChannelMap ../test/testChannelMap.cxx
