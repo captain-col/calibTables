@@ -1,2 +1,15 @@
 /*! \page calibTablesHistory History for the calibTables Package 
+
+\section calibTables_v0r0p0_history Version 0.0.0
+
+Freeze information:
+   - Freeze Date: Sat Jan 31 18:14:31 2015
+   - Freeze User: mcgrew
+   - Freeze Host: boxer 
+
+
+FIRST FREEZE
+
+This includes the basic functionality needed for initial running.
+
 */
