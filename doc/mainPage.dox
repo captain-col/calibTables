@@ -14,4 +14,89 @@ to the package in the definitions subdirectory with a name that matches the
 table name.  The definition file for TPC_CHANNEL_MAP_TABLE is called
 TPC_CHANNEL_MAP_TABLE.def.
 
+\section calibDef Defining a table
+
+Every calibration table needs a "def" file which defines the layout of the
+table using SQL commands.  The def files are saved in the def subdirectory
+of the calibTables package.  The file is processed using the captDBI script
+database_updater.py and should contain "SQL directives.  The
+TPC_CHANNEL_MAP_TABLE.def file provides a pretty good example of how to
+write a script.  As of this Feb 2015, this file contains the following
+statements processed by database_updater.py
+
+\code
+# The SEQNO and ROW_COUNTER columns are required by the DBI
+SQL CREATE TABLE IF NOT EXISTS TPC_WIRE_GEOMETRY_TABLE(
+       SEQNO INTEGER not null,
+       ROW_COUNTER INTEGER not null,
+       TPCWIRE       SMALLINT,
+       GEOMPLANE     SMALLINT,
+       GEOMWIRE	     SMALLINT,
+       primary key(SEQNO,ROW_COUNTER));
+\endcode
+
+Comments are begun using the "#" character, and the body of the "SQL"
+statement is interpreted by database_updater.py as SQL to be handed directly
+to the server.  This definition file creates a table named
+"TPC_WIRE_GEOMETRY_TABLE" with the columns SEQNO, ROW_COUNTER, TPCWIRE,
+GEOMPLANE, and GEOMWIRE.  The types are specified after the column names.
+It also specifies that the primary search keys for the data base will be
+SEQNO and ROW_COUNTER.  These keys are special to the captDBI and must be
+provided.
+
+\section calibUpdate Updating the values in a table
+
+After a calibration table has been defined it must be filled with the
+appropriate values.  This is done by creating an "update" file to be
+processed by the captDBI scripted named database_update.py.  The update
+files are stored on the captain repository site (as of Feb 2015 at SBU) and
+are transferred to the local server instance during the build process.  The
+naming convention for these files is
+"<TABLE_NAME>-<creation-date>.update.gz" (the files should be compressed).
+There can be several update files per database table.  Each file should be
+limited to a single validity period.
+
+The update tables should contain a BEGIN_TABLE database_updater.py
+statement.  For example, the following BEGIN_TABLE statement initializes
+TPC_WIRE_GEOMETRY_TABLE created in the above example.
+
+\code
+BEGIN_TABLE TPC_WIRE_GEOMETRY_TABLE  '2014-09-01 00:00:00' '2037-09-01 00:00:00' 0 '2014-10-19 18:00:00' 0 SIMMASK=Data EPOCH=0
+1,2,334
+2,2,333
+3,2,332
+4,2,331
+5,2,330
+\endcode
+
+where the last 1000+ lines of the table have been removed for brevity.  The
+full BEGIN_TABLE syntax is documented in the captDBI package, but is
+summarized here for clarity.  The body of the BEGIN_TABLE statement must be
+on a single line and contains the following fields:
+
+   * table-name (e.g. TPC_WIRE_GEOMETRY_TABLE) : This is just the name of
+     the table to be filled by database_updater.py
+   * start-date (e.g. '2014-09-01 00:00:00') : This is the date after which
+     the calibration constants in the table are considered valid.
+   * end-date (e.g. '2037-09-01 00:00:00') : This is the last date for
+     which the calibration constants are considered valid.
+   * aggregate-number (e.g. 0) : Needs to be provided.
+   * creation-date (e.g. '2014-10-19 18:00:00') : The date the calibration
+     data was created.  This is used in case there are two sets of data
+     cover overlapping validity periods.  The most recently created
+     calibration constants are used.
+   * task (e.g. 0) : Needs to be provided.
+   * a SIMDATA key value (e.g. SIMDATA=Data) : This must be provided and
+     specifies that the calibrations are for Data (the other possible values
+     are MC and all.
+   * an EPOCH key value (e.g. EPOCH=0) : Set an epoch number for the
+     processing.  This allows calibration constants for the same validity
+     periods, but for different processing epochs.  In this case "epoch"
+     means "times at which processing was done".  The EPOCH number means
+     that we can process data using a preliminary set of calibration
+     constants, update the calibration constants with a new EPOCH number,
+     and reprocess, and still role back to the earlier EPOCH number for a
+     to check the effect of the new constants.
+
+
 */
