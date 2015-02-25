@@ -44,6 +44,19 @@ It also specifies that the primary search keys for the data base will be
 SEQNO and ROW_COUNTER.  These keys are special to the captDBI and must be
 provided.
 
+The table definitions should be limited to the subset of SQL that is
+understood by all servers (this helps with portability).
+\code
+	SMALLINT	-- 16 bit signed integer
+	INT		-- 32 bit signed integer
+	BIGINT		-- 64 bit signed integer
+	REAL		-- A single precision float
+	FLOAT		-- A double precision float
+	CHARACTER(n)	-- An n character field.
+\endcode
+Channels, dates and other values should be converted into one of these
+types. 
+
 \section calibUpdate Updating the values in a table
 
 After a calibration table has been defined it must be filled with the
