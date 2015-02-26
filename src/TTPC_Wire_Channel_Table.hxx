@@ -50,8 +50,23 @@ public:
         return fWire;
     }
 
-    /// Return unique "Natural Index" of row in table.  Optional, the default
-    /// is to return the row position, which is unique but arbitrary.
+    /// Return the unique "Natural Index" of row in table to define how data
+    /// is found in the table.  This is used by the DBI to build a map between
+    /// the channel number (or other index), and the row number.  The map is
+    /// then available to the user of the table to quickly access values of
+    /// the index from a DBI result set.  For instance, a result set for
+    /// TTPC_Wire_Channel_Table.hxx is indexed by the channel id, so code
+    /// might look like this:
+    ///
+    /// \code
+    /// CP::TResultSetHandle<CP::TTPC_Wire_Channel_Table> chanTable(context);
+    ///
+    /// const CP::TTPC_Wire_Channel_Table* chanRow
+    ///                     = chanTable.GetRowByIndex(chanId.AsUInt());
+    /// \endcode
+    ///
+    /// This class is used by the DBI, and is not expected to be called by
+    /// normal user code.
     virtual UInt_t GetIndex(UInt_t defIndex) const {
         return fChannelId.AsUInt();
     }
