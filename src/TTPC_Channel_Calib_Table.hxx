@@ -65,6 +65,10 @@ public:
         return fChannelId;
     }
 
+    UInt_t GetChannelStatus() const {
+        return fChannelStatus;
+    }
+    
     /// Return the digitizer slope for the channel (units: counts/mV).
     Float_t GetDigitizerSlope() const {
         return fDigitizerSlope;
@@ -110,6 +114,9 @@ private:
     /// from a signed integer saved in the DB table.
     CP::TChannelId fChannelId;
 
+    /// Status flags associated with the channel.
+    UInt_t fChannelStatus;
+    
     /// The digitizer conversion factor (count/mV)
     Float_t fDigitizerSlope;
 

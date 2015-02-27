@@ -28,13 +28,20 @@ CP::TTPC_Channel_Calib_Table::~TTPC_Channel_Calib_Table() {}
 
 void CP::TTPC_Channel_Calib_Table::Fill(CP::TResultInputStream& ris) {
     Int_t channelId;
-    ris >> channelId >> fDigitizerSlope >> fASICRiseShape >> fASICFallShape;
+    Int_t channelStatus;
+    ris >> channelId
+        >> channelStatus
+        >> fDigitizerSlope
+        >> fASICRiseShape
+        >> fASICFallShape;
     fChannelId = CP::TTPCChannelId((UInt_t) channelId);
+    fChannelStatus = (UInt_t) channelStatus;
 }
 
 void CP::TTPC_Channel_Calib_Table::Print(const Option_t*) const {
     CaptLog("   Channel calibration row " << fChannelId.AsString() 
-            << " <--> " << fDigitizerSlope
+            << " <--> " << fChannelStatus
+            << " " << fDigitizerSlope
             << " " << fASICRiseShape
             << " " << fASICFallShape);
 }
