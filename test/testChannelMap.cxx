@@ -13,6 +13,9 @@
 
 int main() {
 
+    CP::TCaptLog::Configure();
+    // CP::TCaptLog::SetDebugLevel(CP::TCaptLog::TraceLevel);
+    
     // Examine the database tables 5 days between the start
     // and end date.
 
@@ -28,7 +31,7 @@ int main() {
 
         CP::TEventContext context;
         context.SetTimeStamp(current_unix_time);
-        context.SetPartition(0);
+        context.SetPartition(CP::TEventContext::kmCAPTAIN);
         
         CaptLog(UnixTimeToDateTime(current_unix_time));
 
@@ -55,13 +58,14 @@ int main() {
                 CaptError("Missing channel row " << i);
                 continue;
             }
+            // row->Print();
             int wire = row->GetWire();
             const CP::TTPC_Wire_Geometry_Table* geomRow 
                 = geomTable.GetRowByIndex(wire);
-            if (!geomRow) {
+            if (!geomRow && wire>0) {
                 CaptError("Missing geometry row " << wire);
+                continue;
             }
-            // row->Print();
             // geomRow->Print();
         }
     }
