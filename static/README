@@ -1,0 +1,11 @@
+The calibTables/static Subdirectory
+
+This subdirectory contains a collection of calibration update files that
+are very nearly static, and which should be version controlled.  An example
+of a mostly static table is the mapping of the physical wire to the
+geometry identification.
+
+The files in this directory will be used to update the database before the
+tables downloaded from the distribution site.  They should NOT be
+compressed since the software repository will take care of the
+compression.
