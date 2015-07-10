@@ -35,7 +35,9 @@ void CP::TTPC_Wire_Channel_Table::Fill(CP::TResultInputStream& ris) {
 
 void CP::TTPC_Wire_Channel_Table::Print(const Option_t*) const {
     CaptLog("   Channel map row " << fChannelId.AsString() 
-            << " (" <<fMotherBoard<< "," <<fASIC<< "," <<fASICChannel<< ")"
+            << " (MB: " <<fMotherBoard
+            << ", ASIC: " << fASIC
+            << ", Chan:" << fASICChannel<< ")"
             << " <--> " << fWire);
 }
 
