@@ -31,8 +31,14 @@ if [ ${#ENV_TSQL_URL} == 0 ]; then
     exit 1
 fi
 
+# The location of the table definition files.
 DEFINITIONS=${CALIBTABLESROOT}/definitions
+
+# The location of the downloaded calibration table data.
 UPDATES=${CALIBTABLESROOT}/${CALIBTABLESCONFIG}/tables
+
+# The location of the static calibration table data.
+STATIC_UPDATES=${CALIBTABLESROOT}/static
 
 # Check if the calibrations database already exists.
 FILENAME=$(echo ${ENV_TSQL_URL} | sed s_sqlite://__)
@@ -54,11 +60,27 @@ if [ -f ${FILENAME} ]; then
 fi
 
 for def in ${DEFINITIONS}/*.def; do
+    echo '###########################################################'
+    echo Apply: ${update}
+    echo '###########################################################'
     database_updater.py apply_local_update ${def}
 done
 
-for update in ${UPDATES}/*.update*; do
+for update in ${UPDATES}/*.update ${UPDATES}/*.update.gz; do
+    echo '###########################################################'
+    echo Update: ${update}
+    echo '###########################################################'
     if [ -f ${update} ]; then
 	database_updater.py apply_local_update ${update}
     fi
 done
+
+for update in ${STATIC_UPDATES}/*.update; do
+    echo '###########################################################'
+    echo Update: ${update}
+    echo '###########################################################'
+    if [ -f ${update} ]; then
+	database_updater.py apply_local_update ${update}
+    fi
+done
+
