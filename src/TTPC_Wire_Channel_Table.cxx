@@ -27,12 +27,15 @@ CP::TTPC_Wire_Channel_Table::TTPC_Wire_Channel_Table(
 CP::TTPC_Wire_Channel_Table::~TTPC_Wire_Channel_Table() {}
 
 void CP::TTPC_Wire_Channel_Table::Fill(CP::TResultInputStream& ris) {
-    ris >> fWire >> fCrate >> fCard >> fChannel;
+    ris >> fMotherBoard >> fASIC >> fASICChannel
+        >> fCrate >> fCard >> fChannel
+        >> fWire;
     fChannelId = CP::TTPCChannelId(fCrate,fCard,fChannel);
 }
 
 void CP::TTPC_Wire_Channel_Table::Print(const Option_t*) const {
     CaptLog("   Channel map row " << fChannelId.AsString() 
+            << " (" <<fMotherBoard<< "," <<fASIC<< "," <<fASICChannel<< ")"
             << " <--> " << fWire);
 }
 

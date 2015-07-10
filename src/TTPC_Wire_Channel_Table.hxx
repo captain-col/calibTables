@@ -39,13 +39,45 @@ public:
 
     virtual ~TTPC_Wire_Channel_Table();
 
-    /// Standard Getters (here they just give access to the row's state but
-    /// could equally well perform services based on that state e.g. apply
-    /// calibration.)
+    /// Get the channel identifier.  This is specified by the crate, card and
+    /// channel of the adc for this channel.
     TChannelId GetChannelId() const {
         return fChannelId;
     }
 
+    /// Get the mother board for this channel.
+    int GetMotherBoard() const {
+        return fMotherBoard;
+    }
+
+    /// Get the ASIC on the mother board for this channel.
+    int GetASIC() const {
+        return fASIC;
+    }
+
+    /// Get the channel on the ASIC for this channel.
+    int GetASICChannel() const {
+        return fASICChannel;
+    }
+
+    /// Get the crate for this channel
+    int GetCrate() const {
+        return fCrate;
+    }
+
+    /// Get the card in the crate for this channel.
+    int GetCard() const {
+        return fCard;
+    }
+
+    /// Get the ADC on the card for this channel.
+    int GetADC() const {
+        return fChannel;
+    }
+    
+    /// Get the TPC wire number.  This is the numbering of the wires as
+    /// specified in the TPC documentation and runs from 1 to maxWire.  It can
+    /// be used to look up the geometry identifier in WIRE_GEOMETRY_TABLE.
     int GetWire() const {
         return fWire;
     }
@@ -101,10 +133,14 @@ private:
     /// saved in the DB table.
     CP::TChannelId fChannelId;
 
-    /// Column WIRE SMALLINT: The wire number in the tpc.  These are
-    /// numbered in a counter clock wise direction starting with the U plane.
-    /// The numbering is U 1-335 V 336-670 X 671-1005.
-    Int_t fWire;
+    /// Column MOTHERBOARD SMALLINT:  The motherboard holding the ASIC.
+    Int_t fMotherBoard;
+
+    /// Column ASIC SMALLINT:  The Asic mounted on the motherboard.
+    Int_t fASIC;
+
+    /// Column ASIC_CHANNEL SMALLINT:  The channel on the ASIC
+    Int_t fASICChannel;
 
     /// Column CRATE SMALLINT: The crate number for this channel.
     Int_t fCrate;
@@ -114,6 +150,10 @@ private:
 
     /// Column CHANNEL SMALLINT: The number of the channel the card.
     Int_t fChannel;
+
+    /// Column WIRE SMALLINT: The wire number in the tpc.  For miniCAPTAIN,
+    /// these are numbered is U 1-332 V 332-664 X 665-996.
+    Int_t fWire;
 
     ClassDef(TTPC_Wire_Channel_Table,1)
 };
