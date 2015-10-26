@@ -19,7 +19,7 @@ int main() {
     // Examine the database tables 5 days between the start
     // and end date.
 
-    std::string start_date_time = "2014-10-11 00:00:00";
+    std::string start_date_time = "2015-10-11 00:00:00";
     std::string end_date_time   = "2015-10-17 00:00:00";
 
     Int_t start_unix_time = DateTimeToUnixTime(start_date_time);
@@ -44,7 +44,8 @@ int main() {
         Int_t numGeometry(geomTable.GetNumRows());
         if (numChannel == 0 || numGeometry == 0) {
             CaptError("Problem with query " << numChannel
-                      << " " << numGeometry);
+                      << " " << numGeometry
+                      << " " << context);
             continue;
         }
         CaptLog("Query at " 
@@ -64,9 +65,8 @@ int main() {
                 = geomTable.GetRowByIndex(wire);
             if (!geomRow && wire>0) {
                 CaptError("Missing geometry row " << wire);
-                continue;
             }
-            // geomRow->Print();
+            if (geomRow) geomRow->Print();
         }
     }
 

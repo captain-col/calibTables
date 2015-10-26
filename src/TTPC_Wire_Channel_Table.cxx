@@ -27,9 +27,13 @@ CP::TTPC_Wire_Channel_Table::TTPC_Wire_Channel_Table(
 CP::TTPC_Wire_Channel_Table::~TTPC_Wire_Channel_Table() {}
 
 void CP::TTPC_Wire_Channel_Table::Fill(CP::TResultInputStream& ris) {
-    ris >> fMotherBoard >> fASIC >> fASICChannel
-        >> fCrate >> fCard >> fChannel
-        >> fWire;
+    ris >> fMotherBoard;
+    ris >> fASIC;
+    ris >> fASICChannel;
+    ris >> fCrate;
+    ris >> fCard;
+    ris >> fChannel;
+    ris >> fWire;
     fChannelId = CP::TTPCChannelId(fCrate,fCard,fChannel);
 }
 
