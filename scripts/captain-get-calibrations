@@ -1,22 +1,23 @@
-#!/bin/bash
-
+#! /bin/bash
+#
+# This is run without arguments.
 echo Download the calibration files.
 
 # The location of the input files.
 if [ ${CALIBTABLESFILES}x == x ]; then
-    CALIBTABLESFILES=http://nngroup.physics.sunysb.edu/captain/files/calib/
+    CALIBTABLESFILES=${CAPTAINPOLICYMIRROR}/files/calib
 fi
 
 # This directory should ALWAYS exist, but check anyway.
 if [ ! -d ${CALIBTABLESROOT} ]; then
-    echo captain-get-calibrations: Installation directory is missing!
+    echo captain-get-geometry: captEvent directory is missing!
     echo    where is: ${CALIBTABLESROOT}
     exit 1
 fi
 cd ${CALIBTABLESROOT}
 
 # This directory won't exist when the package is checkout the first  time.
-if [ ! -d ./${CALIBTABLESCONFIG} ]; then
+if [ ! -d ${CALIBTABLESROOT}/${CALIBTABLESCONFIG} ]; then
     mkdir ${CALIBTABLESCONFIG}
 fi
 cd ${CALIBTABLESCONFIG}
@@ -27,5 +28,16 @@ if [ ! -d ./tables ]; then
 fi
 cd tables
 
-wget -N -nd --no-parent -r -A.update,.update.gz ${CALIBTABLESFILES} || true
-rm -v robots.txt* || true
+for file in ${CALIBTABLESFILES}/*.update; do
+    if [ -f ${file} ]; then
+	ln -s ${file} `basename ${file}` >& /dev/null
+    fi
+done
+
+for file in ${CALIBTABLESFILES}/*.update.gz; do
+    if [ -f ${file} ]; then
+	ln -s ${file} `basename ${file}` >& /dev/null
+    fi
+done
+echo Calibration files downloaded.
+
