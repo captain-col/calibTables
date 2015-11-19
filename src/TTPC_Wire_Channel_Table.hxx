@@ -148,7 +148,7 @@ private:
     /// Column CARD SMALLINT: The card number in the crate for this channel.
     Int_t fCard;
 
-    /// Column CHANNEL SMALLINT: The number of the channel the card.
+    /// Column CHANNEL SMALLINT: The number of the channel on the card.
     Int_t fChannel;
 
     /// Column WIRE SMALLINT: The wire number in the tpc.  For miniCAPTAIN,
