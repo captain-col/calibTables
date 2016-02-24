@@ -27,21 +27,31 @@ CP::TTPC_Channel_Calib_Table::TTPC_Channel_Calib_Table(
 CP::TTPC_Channel_Calib_Table::~TTPC_Channel_Calib_Table() {}
 
 void CP::TTPC_Channel_Calib_Table::Fill(CP::TResultInputStream& ris) {
-    Int_t channelId;
+    Int_t crate, card, channel;
     Int_t channelStatus;
-    ris >> channelId
-        >> channelStatus
-        >> fDigitizerSlope
-        >> fASICRiseShape
-        >> fASICFallShape;
-    fChannelId = CP::TTPCChannelId((UInt_t) channelId);
+    ris >> crate;
+    ris >> card;
+    ris >> channel;
+    ris >> channelStatus;
+    ris >> fDigitizerOffset;
+    ris >> fDigitizerSlope;
+    ris >> fSampleOffset;
+    ris >> fSampleSlope;
+    ris >> fASICPeakingTime;
+    ris >> fASICRiseShape;
+    ris >> fASICFallShape;
+    fChannelId = CP::TTPCChannelId(crate,card,channel);
     fChannelStatus = (UInt_t) channelStatus;
 }
 
 void CP::TTPC_Channel_Calib_Table::Print(const Option_t*) const {
-    CaptLog("   Channel calibration row " << fChannelId.AsString() 
-            << " <--> " << fChannelStatus
+    CaptLog("   TPC calib row " << fChannelId.AsString() 
+            << " <-> " << fChannelStatus
+            << " " << fDigitizerOffset
             << " " << fDigitizerSlope
+            << " " << fSampleOffset
+            << " " << fSampleSlope
+            << " " << fASICPeakingTime
             << " " << fASICRiseShape
             << " " << fASICFallShape);
 }

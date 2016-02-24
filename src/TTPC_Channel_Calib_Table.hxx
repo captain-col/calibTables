@@ -114,18 +114,36 @@ private:
     /// from a signed integer saved in the DB table.
     CP::TChannelId fChannelId;
 
-    /// Status flags associated with the channel.
+    /// Status flags associated with the channel.  These are status flags
+    /// automatically derived from the calibration, and don't encode any
+    /// special cases.
     UInt_t fChannelStatus;
     
-    /// The digitizer conversion factor (count/mV)
+    /// The digitizer offset factor (order 0) for the ADC to input voltage,
+    /// (count).  This is the pedestal value determined during the calibration
+    /// sequence.
+    Float_t fDigitizerOffset;
+
+    /// The digitizer slope factor (order 1) for the ADC to input voltage
+    /// (count/mV).
     Float_t fDigitizerSlope;
 
-    /// The shape factor for the rising edge of the shaped pulse.  This is
-    /// independent of the rise time.
+    /// The FADC time offset of the first sample relative to the trigger,
+    /// order 0 (ns).  The offset is positive if the first sample recorded is
+    /// from before the trigger (this is the usual case).  The calibration
+    /// should be so that the trigger occurs at time zero.
+    Float_t fSampleOffset;
+
+    /// The FADC time per sample slope, order 1 (ns/sample).
+    Float_t fSampleSlope;
+    
+    /// The peaking time for the pulse
+    Float_t fASICPeakingTime;
+
+    /// The shape factor for the rising edge of the shaped pulse.
     Float_t fASICRiseShape;
 
-    /// The shape factor for the falling edge of the shaped pulse.  This is
-    /// independent of the fall time.
+    /// The shape factor for the falling edge of the shaped pulse.
     Float_t fASICFallShape;
     
     ClassDef(TTPC_Channel_Calib_Table,1)
