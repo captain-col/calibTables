@@ -12,4 +12,27 @@ FIRST FREEZE
 
 This includes the basic functionality needed for initial running.
 
+
+\section calibTables_v0r0p1_history Version 0.0.1
+
+Freeze information:
+   - Freeze Date: Thu Feb 25 13:23:10 2016
+   - Freeze User: mcgrew
+   - Freeze Host: boxer boxer 
+
+
+FEATURES
+
+* Improve mirroring of calibration files by using the utilities in
+  captainPolicy
+
+* Use a local area for static tables (like channel mapping).
+
+* Add table to hold TPC channel calibration constants, but it's not used
+  (yet).
+
+BUG FIXES
+
+* Other minor bug fixes...
+
 */
