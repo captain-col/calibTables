@@ -11,9 +11,9 @@ namespace CP {
     class TTableRow;
 };
 
-/// Provide a map between channels, wires and geometry objects.  This
-/// interfaces to the table TPC_WIRE_TABLE, and the validity table
-/// TPC_WIRE_TABLEVLD.
+/// Provide the calibration coefficients for all of the channels.  This
+/// interfaces to the table TPC_CHANNEL_CALIB_TABLE, and the validity table
+/// TPC_CHANNEL_CALIB_TABLEVLD.
 ///
 /// This is also an example table using TTableRow subclass rows and can be
 /// used as the starting point for other subclasses.
