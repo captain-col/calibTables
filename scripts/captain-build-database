@@ -52,7 +52,12 @@ if [ -f ${FILENAME} ]; then
 	echo Need to update database because of updates.
 	APPLY="YES"
     fi
+    if [ -n "$(find ${STATIC_UPDATES} -name "*.update*" -newer ${FILENAME})" ]; then
+	echo Need to update database because of updates.
+	APPLY="YES"
+    fi
     if [ ${APPLY} = "NO" ]; then
+	echo "Database is up to date"
 	exit 0
     fi
     echo "Remove existing database"
