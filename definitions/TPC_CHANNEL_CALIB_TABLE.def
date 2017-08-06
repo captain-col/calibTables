@@ -23,9 +23,13 @@
 SQL CREATE TABLE IF NOT EXISTS TPC_CHANNEL_CALIB_TABLE(
        SEQNO INTEGER not null,
        ROW_COUNTER INTEGER not null,
-       CHANNEL           INT,
-       CHANNEL_STATUS	 SHORTINT,
-       DIGITIZER_SLOPE   REAL,
+       CRATE             SMALLINT,
+       CARD	         SMALLINT,
+       CHANNEL	         SMALLINT,
+       CHANNEL_STATUS	 SMALLINT,
+       DIGITIZER_OFFSET  REAL,
+       ASIC_GAIN         REAL,
+       ASIC_PEAK_TIME    REAL,
        ASIC_RISE_SHAPE   REAL,
        ASIC_FALL_SHAPE   REAL,
        primary key(SEQNO,ROW_COUNTER));

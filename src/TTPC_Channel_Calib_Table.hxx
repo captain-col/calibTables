@@ -69,9 +69,14 @@ public:
         return fChannelStatus;
     }
     
-    /// Return the digitizer slope for the channel (units: counts/mV).
-    Float_t GetDigitizerSlope() const {
-        return fDigitizerSlope;
+    /// Return the ASIC gain in fC/mV.
+    Float_t GetASICGain() const {
+        return fASICGain;
+    }
+
+    /// Return the peaking time of the ASIC.
+    Float_t GetASICPeakTime() const {
+        return fASICPeakTime;
     }
 
     /// Return the ASIC shaping factor for the rising edge of the pulse.
@@ -114,36 +119,37 @@ private:
     /// from a signed integer saved in the DB table.
     CP::TChannelId fChannelId;
 
-    /// Status flags associated with the channel.  These are status flags
-    /// automatically derived from the calibration, and don't encode any
-    /// special cases.
+    /// Column CRATE SMALLINT: The crate number for this channel.
+    Int_t fCrate;
+
+    /// Column CARD SMALLINT: The card number in the crate for this channel.
+    Int_t fCard;
+
+    /// Column CHANNEL SMALLINT: The number of the channel on the card.
+    Int_t fChannel;
+
+    /// Column STATUS SMALLINT: Status flags associated with the channel.
+    /// These are status flags automatically derived from the calibration, and
+    /// don't encode any special cases.
     UInt_t fChannelStatus;
     
-    /// The digitizer offset factor (order 0) for the ADC to input voltage,
-    /// (count).  This is the pedestal value determined during the calibration
-    /// sequence.
+    /// Column OFFSET SMALLINT: The digitizer offset factor (order 0) for the
+    /// ADC to input voltage, (count).  This is the pedestal value determined
+    /// during the calibration sequence in digitizer counts.
     Float_t fDigitizerOffset;
 
-    /// The digitizer slope factor (order 1) for the ADC to input voltage
-    /// (count/mV).
-    Float_t fDigitizerSlope;
+    /// Column GAIN REAL: The gain of the ASIC (in fC/mV);
+    Float_t fASICGain;
 
-    /// The FADC time offset of the first sample relative to the trigger,
-    /// order 0 (ns).  The offset is positive if the first sample recorded is
-    /// from before the trigger (this is the usual case).  The calibration
-    /// should be so that the trigger occurs at time zero.
-    Float_t fSampleOffset;
-
-    /// The FADC time per sample slope, order 1 (ns/sample).
-    Float_t fSampleSlope;
-    
-    /// The peaking time for the pulse
+    /// Column PEAK_TIME REAL: The peaking time for the pulse
     Float_t fASICPeakingTime;
 
-    /// The shape factor for the rising edge of the shaped pulse.
+    /// Column RISE_SHAPE REAL: The shape factor for the rising edge of the
+    /// shaped pulse.
     Float_t fASICRiseShape;
 
-    /// The shape factor for the falling edge of the shaped pulse.
+    /// Column FALL_SHAPE REAL: The shape factor for the falling edge of the
+    /// shaped pulse.
     Float_t fASICFallShape;
     
     ClassDef(TTPC_Channel_Calib_Table,1)

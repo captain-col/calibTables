@@ -34,9 +34,7 @@ void CP::TTPC_Channel_Calib_Table::Fill(CP::TResultInputStream& ris) {
     ris >> channel;
     ris >> channelStatus;
     ris >> fDigitizerOffset;
-    ris >> fDigitizerSlope;
-    ris >> fSampleOffset;
-    ris >> fSampleSlope;
+    ris >> fASICGain;
     ris >> fASICPeakingTime;
     ris >> fASICRiseShape;
     ris >> fASICFallShape;
@@ -48,9 +46,7 @@ void CP::TTPC_Channel_Calib_Table::Print(const Option_t*) const {
     CaptLog("   TPC calib row " << fChannelId.AsString() 
             << " <-> " << fChannelStatus
             << " " << fDigitizerOffset
-            << " " << fDigitizerSlope
-            << " " << fSampleOffset
-            << " " << fSampleSlope
+            << " " << fASICGain
             << " " << fASICPeakingTime
             << " " << fASICRiseShape
             << " " << fASICFallShape);
