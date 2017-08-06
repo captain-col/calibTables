@@ -142,7 +142,7 @@ private:
     Float_t fASICGain;
 
     /// Column PEAK_TIME REAL: The peaking time for the pulse
-    Float_t fASICPeakingTime;
+    Float_t fASICPeakTime;
 
     /// Column RISE_SHAPE REAL: The shape factor for the rising edge of the
     /// shaped pulse.

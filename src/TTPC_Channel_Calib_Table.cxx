@@ -35,7 +35,7 @@ void CP::TTPC_Channel_Calib_Table::Fill(CP::TResultInputStream& ris) {
     ris >> channelStatus;
     ris >> fDigitizerOffset;
     ris >> fASICGain;
-    ris >> fASICPeakingTime;
+    ris >> fASICPeakTime;
     ris >> fASICRiseShape;
     ris >> fASICFallShape;
     fChannelId = CP::TTPCChannelId(crate,card,channel);
@@ -47,7 +47,7 @@ void CP::TTPC_Channel_Calib_Table::Print(const Option_t*) const {
             << " <-> " << fChannelStatus
             << " " << fDigitizerOffset
             << " " << fASICGain
-            << " " << fASICPeakingTime
+            << " " << fASICPeakTime
             << " " << fASICRiseShape
             << " " << fASICFallShape);
 }
