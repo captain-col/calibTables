@@ -66,10 +66,11 @@ public:
     }
 
     enum {
-        kNoSignal = 1<<0,
-        kLowGain = 1<<1,
-        kHighGain = 1<<2,
-        kBadPeak = 1<<3
+        kBadChannel = 1<<0,     // Marked as a bad channel by hand.
+        kNoSignal = 1<<1,       // No signal found during calibration
+        kLowGain = 1<<2,        // Gain is well below nominal
+        kHighGain = 1<<3,       // Gain is well above nominal
+        kBadPeak = 1<<4,        // Peak shape fit is bad.
     };
 
     UInt_t GetChannelStatus() const {
