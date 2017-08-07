@@ -65,8 +65,20 @@ public:
         return fChannelId;
     }
 
+    enum {
+        kNoSignal = 1<<0,
+        kLowGain = 1<<1,
+        kHighGain = 1<<2,
+        kBadPeak = 1<<3
+    };
+
     UInt_t GetChannelStatus() const {
         return fChannelStatus;
+    }
+
+    /// Return the digitizer pedestal in adc counts.
+    Float_t GetDigitizerPedestal() const {
+        return fDigitizerPedestal;
     }
     
     /// Return the ASIC gain in fC/mV.
@@ -133,10 +145,10 @@ private:
     /// don't encode any special cases.
     UInt_t fChannelStatus;
     
-    /// Column OFFSET SMALLINT: The digitizer offset factor (order 0) for the
-    /// ADC to input voltage, (count).  This is the pedestal value determined
+    /// Column OFFSET SMALLINT: The digitizer pedestal (order 0) for the ADC
+    /// to input voltage, (count).  This is the pedestal value determined
     /// during the calibration sequence in digitizer counts.
-    Float_t fDigitizerOffset;
+    Float_t fDigitizerPedestal;
 
     /// Column GAIN REAL: The gain of the ASIC (in fC/mV);
     Float_t fASICGain;
