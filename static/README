@@ -9,3 +9,7 @@ The files in this directory will be used to update the database before the
 tables downloaded from the distribution site.  They should NOT be
 compressed since the software repository will take care of the
 compression.
+
+There should be a "dummy" for most tables that is pre-dated to before we
+started taking data.  This will handle the case when there isn't a
+calibration available.
