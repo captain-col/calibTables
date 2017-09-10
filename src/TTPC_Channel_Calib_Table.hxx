@@ -71,6 +71,7 @@ public:
         kLowGain = 1<<2,        // Gain is well below nominal
         kHighGain = 1<<3,       // Gain is well above nominal
         kBadPeak = 1<<4,        // Peak shape fit is bad.
+        kBadFit = 1<<5,         // Goodness of fit cut failed.
     };
 
     UInt_t GetChannelStatus() const {
