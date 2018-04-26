@@ -1,0 +1,82 @@
+# This is the update file for the TPC_BAD_CHANNEL_TABLE for the
+#   miniCAPTAIN detector.
+
+#  Update files can contain:-
+#
+#  1)  Blank lines and comments (# in column 1)
+#
+#  2)  SQL  <sql-command>;
+#      Any arbitrary SQL command that ends with a ';'.  
+#      Can span several lines (see below for example).
+#
+#  3)  BEGIN_TABLE <table-name> <start-date> <end-date> \
+#             <aggregate-number> <creation-date> {<task>} {<key>=<value> ...]
+#      Followed by one or more rows of data, one per line in the form
+#           <value>,<value>, ... <value> 
+#      This utility supplies both SEQNO and ROW_COUNTER to the start of
+#           each row.  The BEGIN_TABLE command must be on one line.
+#      The BEGIN_TABLE command needs to contain keys for the
+#           DETECTORMASK (from captDBI 1.0.0: mCAPTAIN or CAPTAIN)
+#           SIMMASK      (Data, MC, or All)
+#           EPOCH
+
+# Column definitions: Crate,Card,Channel,Status
+
+# Flag definitions: Any positive number means the channel is bad.  Define
+#   the actual reasons in TTPC_Bad_Channel_Table.hxx.  It's helpful if you
+#   can copy the definition documentation here.
+
+
+BEGIN_TABLE TPC_BAD_CHANNEL_TABLE  '1970-01-01 00:00:00' '2038-01-19 03:14:07' 0 '2015-06-26 18:00:00' 0 DETECTORMASK=mCAPTAIN SIMMASK=MC EPOCH=0
+0,0,66,2
+0,0,62,2
+0,0,63,2
+0,0,64,2
+0,0,129,2
+0,0,130,2
+0,0,131,2
+0,0,132,2
+0,0,229,2
+0,0,230,2
+0,0,231,2
+0,0,232,2
+0,0,298,2
+0,0,300,2
+0,0,331,2
+0,1,229,2
+0,1,30,2
+0,1,31,2
+0,1,32,2
+0,1,33,2
+0,1,98,2
+0,1,99,2
+0,1,100,2
+0,1,101,2
+0,1,199,2
+0,1,200,2
+0,1,201,2
+0,1,202,2
+0,1,267,2
+0,1,268,2
+0,1,269,2
+0,1,270,2
+0,1,331,2
+0,2,153,2
+0,2,30,2
+0,2,31,2
+0,2,32,2
+0,2,33,2
+0,2,98,2
+0,2,99,2
+0,2,100,2
+0,2,101,2
+0,2,199,2
+0,2,200,2
+0,2,201,2
+0,2,202,2
+0,2,267,2
+0,2,268,2
+0,2,269,2
+0,2,270,2
+0,2,331,2
+
