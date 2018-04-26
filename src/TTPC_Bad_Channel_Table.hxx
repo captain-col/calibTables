@@ -56,6 +56,10 @@ public:
         return fChannelId;
     }
 
+    TChannelId GetChannelMCId() const {
+        return fChannelMCId;
+    }
+
     UInt_t GetChannelStatus() const {
         return fChannelStatus;
     }
@@ -83,12 +87,14 @@ public:
     /// Programming note: The arg isn't used but is there so as to avoid
     /// compiler warnings about hidden method TObject::Print(const Option_t*).
     virtual           void Print(const Option_t* = "") const;
+    virtual           void PrintMC(const Option_t* = "") const;
 
 private:
 
     /// The channel id for this object.  This is a calculated value is filled
     /// from a signed integer saved in the DB table.
     CP::TChannelId fChannelId;
+    CP::TChannelId fChannelMCId;
 
     /// The bad channel flag associated with the channel.
     UInt_t fChannelStatus;

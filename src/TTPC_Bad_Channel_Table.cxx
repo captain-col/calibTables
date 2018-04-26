@@ -2,6 +2,7 @@
 
 #include <TCaptLog.hxx>
 #include <TTPCChannelId.hxx>
+#include <TMCChannelId.hxx>
 #include <CaptGeomId.hxx>
 
 #include <TResultInputStream.hxx>
@@ -34,11 +35,16 @@ void CP::TTPC_Bad_Channel_Table::Fill(CP::TResultInputStream& ris) {
     ris >> channel;
     ris >> channelStatus;
     fChannelId = CP::TTPCChannelId(crate,card,channel);
+    fChannelMCId = CP::TMCChannelId(crate,card,channel);
     fChannelStatus = (Int_t) channelStatus;
 }
 
 void CP::TTPC_Bad_Channel_Table::Print(const Option_t*) const {
     CaptLog("   TPC bad channel row " << fChannelId.AsString() 
+            << " <-> " << fChannelStatus);
+}
+void CP::TTPC_Bad_Channel_Table::PrintMC(const Option_t*) const {
+    CaptLog("   MC bad channel row " << fChannelMCId.AsString() 
             << " <-> " << fChannelStatus);
 }
 
